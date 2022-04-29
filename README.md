@@ -8,3 +8,7 @@ Repositório para o projeto em QT de Programação Orientada a Objetos
 - aprender a escrever ideias
 - jogo com sprites
 - upgrade do joguinho de lógica de programação
+- minigame para cada coisa
+- pegar galinha voando pela tela
+- tirar coisas da frente pra pegar rede
+- se perder no puzzle, resetar tudo (se sujar)
