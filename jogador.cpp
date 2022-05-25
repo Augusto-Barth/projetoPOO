@@ -1,0 +1,176 @@
+#include "jogador.h"
+#include "porta.h"
+#include "objeto.h"
+
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QRandomGenerator>
+#include <QStyleOption>
+#include <QtMath>
+#include <QKeyEvent>
+#include <QPointF>
+#include <QGraphicsSceneMouseEvent>
+#include <QDebug>
+#include <QMouseEvent>
+#include <QGraphicsView>
+#include <QVector>
+#include <QGraphicsItem>
+#include <QGraphicsWidget>
+#include <QCursor>
+
+constexpr qreal Pi = M_PI;
+constexpr qreal TwoPi = 2 * M_PI;
+
+static qreal normalizeAngle(qreal angle)
+{
+    while (angle < 0)
+        angle += TwoPi;
+    while (angle > TwoPi)
+        angle -= TwoPi;
+    return angle;
+}
+
+
+//! [0]
+Jogador::Jogador(QGraphicsItem* parent) : Objeto(parent), color(255, 0, 0)
+{
+    setRotation(0);
+}
+//! [0]
+
+void Jogador::mousePressEvent(QGraphicsSceneMouseEvent *event){
+
+}
+
+void QGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+//    qDebug() << "asdqwe";
+//    auto pontoMouse = event->pos();
+//    qDebug() << pontoMouse.x() << " e " << pontoMouse.y();
+//    qreal pitagoras = qSqrt(qPow(pontoMouse.x(), 2) + qPow(pontoMouse.y(), 2));
+//    setRotation(pitagoras/pontoMouse.x());
+//    update();
+}
+
+//! [1]
+QRectF Jogador::boundingRect() const
+{
+
+    return QRectF(-20, -20, 40, 40);
+}
+//! [1]
+
+//! [2]
+QPainterPath Jogador::shape() const
+{
+    QPainterPath path;
+    path.addRect(-20, -20, 40, 40);
+    return path;
+}
+//! [2]
+
+void Jogador::calculaColisoes(){
+    QVector<QGraphicsItem*> vect = scene()->collidingItems(this).toVector();
+    colisoes.erase(colisoes.begin(), colisoes.end());
+    for(int i = 0; i < vect.size(); i++){
+        if(vect[i] != this){
+            Objeto* check = dynamic_cast<Objeto*>(vect[i]);
+            if(check != nullptr){
+                colisoes.push_back(check);
+            }
+        }
+    }
+}
+
+void Jogador::keyPressEvent(QKeyEvent *event){
+    if(event->key() == Qt::Key_Left){
+        if(x()-10-20 >= 0)
+            setPos(x()-10, y());
+    }
+    else if(event->key() == Qt::Key_Right){
+        if(x()+10+20 <= scene()->width())
+            setPos(x()+10, y());
+    }
+    else if(event->key() == Qt::Key_Up){
+        if(y()-10-20 >= 0)
+            setPos(x(), y()-10);
+    }
+    else if(event->key() == Qt::Key_Down){
+        if(y()+10+20 <= scene()->height())
+            setPos(x(), y()+10);
+    }
+    else if(event->key() == Qt::Key_Q){
+        calculaColisoes();
+        std::vector<Objeto*>::iterator a;
+        for(a = colisoes.begin(); a != colisoes.end(); a++){
+            qDebug() << (*a)->tipo();
+        }
+    }
+}
+
+
+//! [3]
+void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    int algo = 0;
+    QVector<QGraphicsItem*> vect = scene()->collidingItems(this).toVector();
+    if(vect.size() != 0){
+        for(int i = 0; i < vect.size(); i++){
+            if(vect[i] != this){
+                Objeto* check = dynamic_cast<Objeto*>(vect[i]);
+                if(check != nullptr){
+                    algo = 1;
+                    if(check->tipo() == "porta"){
+                        color = Qt::yellow;
+                    }
+                    else{
+                        color = Qt::red;
+                    }
+                }
+            }
+        }
+    }
+    if(!algo){
+        color = Qt::red;
+    }
+
+    // Body
+    painter->setBrush(color);
+    //painter->drawEllipse(-10, -20, 20, 40);
+    painter->drawRect(-20,-20,40,40);
+    // Eyes
+    painter->setBrush(Qt::white);
+    painter->drawEllipse(-15, -17, 8, 8);
+    painter->drawEllipse(-3, -17, 8, 8);
+    painter->setBrush(Qt::black);
+
+    auto pontoMouse = QCursor::pos() - this->scene()->views()[0]->pos();
+
+//    QLineF ateMouse(this->pos(), QPointF(600, 350));
+//    qreal anguloMouse = std::atan2(ateMouse.dy(), ateMouse.dx());
+//    anguloMouse = normalizeAngle((Pi - anguloMouse) + Pi / 2);
+
+//    this->setRotation(anguloMouse);
+
+    if(pontoMouse.x() > scenePos().x()+40){
+        if(pontoMouse.y() > scenePos().y()+40){
+            painter->drawEllipse(-11, -13, 3, 3);
+            painter->drawEllipse(1, -13, 3, 3);
+        }
+        else{
+            painter->drawEllipse(-11, -16, 3, 3);
+            painter->drawEllipse(1, -16, 3, 3);
+        }
+    }
+    else{
+        if(pontoMouse.y() > scenePos().y()+40){
+            painter->drawEllipse(-14, -13, 3, 3);
+            painter->drawEllipse(-3, -13, 3, 3);
+        }
+        else{
+            painter->drawEllipse(-14, -16, 3, 3);
+            painter->drawEllipse(-2, -16, 3, 3);
+        }
+
+    }
+
+}
