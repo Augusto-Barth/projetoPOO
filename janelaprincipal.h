@@ -2,11 +2,14 @@
 #define JANELAPRINCIPAL_H
 
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 class JanelaPrincipal
 {
+    QGraphicsScene* scene = new QGraphicsScene;
+    QGraphicsView* view = new QGraphicsView;
 public:
-    JanelaPrincipal();
+    JanelaPrincipal(QPixmap imagem);
 };
 
 #endif // JANELAPRINCIPAL_H
