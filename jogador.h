@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 #include <vector>
+#include <QString>
 #include "objeto.h"
 
 class Jogador : public Objeto
@@ -17,6 +18,7 @@ public:
     //void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void calculaColisoes();
+    QString tipo();
 
 protected:
 //    void advance(int step) override;

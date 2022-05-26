@@ -30,6 +30,9 @@ static qreal normalizeAngle(qreal angle)
     return angle;
 }
 
+QString Jogador::tipo(){
+    return "jogador";
+}
 
 //! [0]
 Jogador::Jogador(QGraphicsItem* parent) : Objeto(parent), color(255, 0, 0)
@@ -81,22 +84,93 @@ void Jogador::calculaColisoes(){
     }
 }
 
+//void Jogador::keyPressEvent(QKeyEvent *event){
+//    if(event->key() == Qt::Key_A){
+//        if(x()-10-20 >= 0)
+//            setPos(x()-10, y());
+//    }
+//    else if(event->key() == Qt::Key_D){
+//        if(x()+10+20 <= scene()->width())
+//            setPos(x()+10, y());
+//    }
+//    else if(event->key() == Qt::Key_W){
+//        if(y()-10-20 >= 0)
+//            setPos(x(), y()-10);
+//    }
+//    else if(event->key() == Qt::Key_S){
+//        if(y()+10+20 <= scene()->height())
+//            setPos(x(), y()+10);
+//    }
+//    else if(event->key() == Qt::Key_Q){
+//        calculaColisoes();
+//        std::vector<Objeto*>::iterator a;
+//        for(a = colisoes.begin(); a != colisoes.end(); a++){
+//            qDebug() << (*a)->tipo();
+//        }
+//    }
+//}
+
+
+//        colisao.moveTo(colisao.currentPosition().x()-20-passo, colisao.currentPosition().y());
+//        calculaColisoes();
+//        std::vector<Objeto*>::iterator a;
+//        for(a = colisoes.begin(); a != colisoes.end(); a++){
+//            colidiu = true;
+//        }
+//        colisao.moveTo(colisao.currentPosition().x()+20+passo, colisao.currentPosition().y());
+//        if(!colidiu)
+//            setPos(x()-passo, y());
+
 void Jogador::keyPressEvent(QKeyEvent *event){
-    if(event->key() == Qt::Key_Left){
-        if(x()-10-20 >= 0)
-            setPos(x()-10, y());
+    int passo = 10;
+    bool colidiu = false;
+    if(event->key() == Qt::Key_A){
+        if(x()-passo-20 >= 0){
+            setPos(x()-passo, y());
+            calculaColisoes();
+            std::vector<Objeto*>::iterator a;
+            for(a = colisoes.begin(); a != colisoes.end(); a++){
+                colidiu = true;
+            }
+            if(colidiu)
+                setPos(x()+passo, y());
+        }
     }
-    else if(event->key() == Qt::Key_Right){
-        if(x()+10+20 <= scene()->width())
-            setPos(x()+10, y());
+    else if(event->key() == Qt::Key_D){
+        if(x()+passo+20 <= scene()->width()){
+            setPos(x()+passo, y());
+            calculaColisoes();
+            std::vector<Objeto*>::iterator a;
+            for(a = colisoes.begin(); a != colisoes.end(); a++){
+                colidiu = true;
+            }
+            if(colidiu)
+                setPos(x()-passo, y());
+        }
     }
-    else if(event->key() == Qt::Key_Up){
-        if(y()-10-20 >= 0)
-            setPos(x(), y()-10);
+    else if(event->key() == Qt::Key_W){
+        if(y()-passo-20 >= 0){
+            setPos(x(), y()-passo);
+            calculaColisoes();
+            std::vector<Objeto*>::iterator a;
+            for(a = colisoes.begin(); a != colisoes.end(); a++){
+                colidiu = true;
+            }
+            if(colidiu)
+                setPos(x(), y()+passo);
+        }
     }
-    else if(event->key() == Qt::Key_Down){
-        if(y()+10+20 <= scene()->height())
-            setPos(x(), y()+10);
+    else if(event->key() == Qt::Key_S){
+        if(y()+passo+20 <= scene()->height()){
+            setPos(x(), y()+passo);
+            calculaColisoes();
+            std::vector<Objeto*>::iterator a;
+            for(a = colisoes.begin(); a != colisoes.end(); a++){
+                colidiu = true;
+            }
+            if(colidiu)
+                setPos(x(), y()-passo);
+        }
     }
     else if(event->key() == Qt::Key_Q){
         calculaColisoes();

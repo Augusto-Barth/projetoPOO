@@ -6,7 +6,7 @@
 class Porta : public Objeto
 {
 private:
-    QString tipoObjeto = "porta";
+
 public:
     Porta(QGraphicsItem* parent = nullptr);
 

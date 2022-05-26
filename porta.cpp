@@ -18,7 +18,7 @@ Porta::Porta(QGraphicsItem* parent) : Objeto(parent)
 }
 
 QString Porta::tipo(){
-    return tipoObjeto;
+    return "porta";
 }
 
 
