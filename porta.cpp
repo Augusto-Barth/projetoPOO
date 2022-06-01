@@ -21,6 +21,9 @@ QString Porta::tipo(){
     return "porta";
 }
 
+bool Porta::atravessavel(){
+    return true;
+}
 
 QRectF Porta::boundingRect() const
 {

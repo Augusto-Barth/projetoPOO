@@ -34,6 +34,10 @@ QString Jogador::tipo(){
     return "jogador";
 }
 
+bool Jogador::atravessavel(){
+    return false;
+}
+
 //! [0]
 Jogador::Jogador(QGraphicsItem* parent) : Objeto(parent), color(255, 0, 0)
 {
@@ -58,7 +62,7 @@ void QGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 QRectF Jogador::boundingRect() const
 {
 
-    return QRectF(-20, -20, 40, 40);
+    return QRectF(-10, -10, 20, 20);
 }
 //! [1]
 
@@ -66,7 +70,7 @@ QRectF Jogador::boundingRect() const
 QPainterPath Jogador::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -20, 40, 40);
+    path.addRect(-10, -10, 20, 20);
     return path;
 }
 //! [2]
@@ -125,48 +129,52 @@ void Jogador::keyPressEvent(QKeyEvent *event){
     int passo = 10;
     bool colidiu = false;
     if(event->key() == Qt::Key_A){
-        if(x()-passo-20 >= 0){
+        if(x()-passo-10 >= 0){
             setPos(x()-passo, y());
             calculaColisoes();
             std::vector<Objeto*>::iterator a;
             for(a = colisoes.begin(); a != colisoes.end(); a++){
-                colidiu = true;
+                if(!(*a)->atravessavel())
+                    colidiu = true;
             }
             if(colidiu)
                 setPos(x()+passo, y());
         }
     }
     else if(event->key() == Qt::Key_D){
-        if(x()+passo+20 <= scene()->width()){
+        if(x()+passo+10 <= scene()->width()){
             setPos(x()+passo, y());
             calculaColisoes();
             std::vector<Objeto*>::iterator a;
             for(a = colisoes.begin(); a != colisoes.end(); a++){
-                colidiu = true;
+                if(!(*a)->atravessavel())
+                    colidiu = true;
             }
             if(colidiu)
                 setPos(x()-passo, y());
         }
     }
     else if(event->key() == Qt::Key_W){
-        if(y()-passo-20 >= 0){
+        if(y()-passo-10 >= 0){
             setPos(x(), y()-passo);
             calculaColisoes();
             std::vector<Objeto*>::iterator a;
             for(a = colisoes.begin(); a != colisoes.end(); a++){
-                colidiu = true;
+                if(!(*a)->atravessavel())
+                    colidiu = true;
             }
             if(colidiu)
                 setPos(x(), y()+passo);
         }
     }
     else if(event->key() == Qt::Key_S){
-        if(y()+passo+20 <= scene()->height()){
+        if(y()+passo+10 <= scene()->height()){
             setPos(x(), y()+passo);
             calculaColisoes();
             std::vector<Objeto*>::iterator a;
             for(a = colisoes.begin(); a != colisoes.end(); a++){
-                colidiu = true;
+                if(!(*a)->atravessavel())
+                    colidiu = true;
             }
             if(colidiu)
                 setPos(x(), y()-passo);
@@ -207,17 +215,21 @@ void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
         color = Qt::red;
     }
 
+    QPen pen;
+    pen.setWidth(0);
+    painter->setPen(pen);
+
     // Body
     painter->setBrush(color);
     //painter->drawEllipse(-10, -20, 20, 40);
-    painter->drawRect(-20,-20,40,40);
+    painter->drawRect(-10, -10, 20, 20);
     // Eyes
     painter->setBrush(Qt::white);
-    painter->drawEllipse(-15, -17, 8, 8);
-    painter->drawEllipse(-3, -17, 8, 8);
+    painter->drawEllipse(-8, -8, 4, 4);
+    painter->drawEllipse(2, -8, 4, 4);
     painter->setBrush(Qt::black);
 
-    auto pontoMouse = QCursor::pos() - this->scene()->views()[0]->pos();
+//    auto pontoMouse = QCursor::pos() - this->scene()->views()[0]->pos();
 
 //    QLineF ateMouse(this->pos(), QPointF(600, 350));
 //    qreal anguloMouse = std::atan2(ateMouse.dy(), ateMouse.dx());
@@ -225,26 +237,26 @@ void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 
 //    this->setRotation(anguloMouse);
 
-    if(pontoMouse.x() > scenePos().x()+40){
-        if(pontoMouse.y() > scenePos().y()+40){
-            painter->drawEllipse(-11, -13, 3, 3);
-            painter->drawEllipse(1, -13, 3, 3);
-        }
-        else{
-            painter->drawEllipse(-11, -16, 3, 3);
-            painter->drawEllipse(1, -16, 3, 3);
-        }
-    }
-    else{
-        if(pontoMouse.y() > scenePos().y()+40){
-            painter->drawEllipse(-14, -13, 3, 3);
-            painter->drawEllipse(-3, -13, 3, 3);
-        }
-        else{
-            painter->drawEllipse(-14, -16, 3, 3);
-            painter->drawEllipse(-2, -16, 3, 3);
-        }
+//    if(pontoMouse.x() > scenePos().x()+40){
+//        if(pontoMouse.y() > scenePos().y()+40){
+//            painter->drawEllipse(-11, -13, 3, 3);
+//            painter->drawEllipse(1, -13, 3, 3);
+//        }
+//        else{
+//            painter->drawEllipse(-11, -16, 3, 3);
+//            painter->drawEllipse(1, -16, 3, 3);
+//        }
+//    }
+//    else{
+//        if(pontoMouse.y() > scenePos().y()+40){
+//            painter->drawEllipse(-14, -13, 3, 3);
+//            painter->drawEllipse(-3, -13, 3, 3);
+//        }
+//        else{
+//            painter->drawEllipse(-14, -16, 3, 3);
+//            painter->drawEllipse(-2, -16, 3, 3);
+//        }
 
-    }
+//    }
 
 }

@@ -1,6 +1,7 @@
 QT += widgets
 
 SOURCES += \
+    casa.cpp \
     janelaprincipal.cpp \
     jogador.cpp \
     main.cpp \
@@ -8,6 +9,7 @@ SOURCES += \
     porta.cpp
 
 HEADERS += \
+    casa.h \
     janelaprincipal.h \
     jogador.h \
     objeto.h \

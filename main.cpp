@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    JanelaPrincipal janela(QPixmap(":/images/grass.jpg"));
+    JanelaPrincipal janela(QPixmap(":/images/fundo.png"));
 
     return app.exec();
 }

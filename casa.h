@@ -1,14 +1,14 @@
-#ifndef PORTA_H
-#define PORTA_H
+#ifndef CASA_H
+#define CASA_H
 
 #include "objeto.h"
 
-class Porta : public Objeto
+class Casa : public Objeto
 {
 private:
 
 public:
-    Porta(QGraphicsItem* parent = nullptr);
+    Casa(QGraphicsItem* parent = nullptr);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
@@ -17,4 +17,4 @@ public:
     bool atravessavel();
 };
 
-#endif // PORTA_H
+#endif // CASA_H

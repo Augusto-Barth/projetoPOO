@@ -1,6 +1,7 @@
 #include "janelaprincipal.h"
 #include "jogador.h"
 #include "porta.h"
+#include "casa.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -21,8 +22,12 @@ JanelaPrincipal::JanelaPrincipal(QPixmap imagem)
     porta->setPos(200, 200);
     scene->addItem(porta);
 
+    Casa *casa = new Casa;
+    casa->setPos(500, 200);
+    scene->addItem(casa);
+
     Jogador *jogador = new Jogador;
-    jogador->setPos(100, 100);
+    jogador->setPos(670, 350);
     scene->addItem(jogador);
     jogador->setFlag(QGraphicsItem::ItemIsFocusable);
     jogador->setFocus();

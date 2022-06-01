@@ -19,6 +19,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void calculaColisoes();
     QString tipo();
+    bool atravessavel();
 
 protected:
 //    void advance(int step) override;
