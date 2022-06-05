@@ -4,6 +4,8 @@
 #include <QGraphicsItem>
 #include <vector>
 #include <QString>
+#include <QTimer>
+#include <QGraphicsTextItem>
 #include "objeto.h"
 
 class Jogador : public Objeto
@@ -18,19 +20,28 @@ public:
     //void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void calculaColisoes();
+    bool colidiu();
     QString tipo();
     bool atravessavel();
 
+    //std::vector<bool> items; // 0 rede, 1 galinha
+
 protected:
 //    void advance(int step) override;
+
+public slots:
+    void destroiTimer();
 
 private:
     qreal angle = 0;
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
-    QColor color;
     QPointF pontoMouse;
     std::vector<Objeto*> colisoes;
+    QGraphicsTextItem *texto;
+    QTimer *timer;
+    QPixmap personagem;
+
 };
 
 #endif // JOGADOR_H

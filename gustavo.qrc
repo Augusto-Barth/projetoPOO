@@ -2,5 +2,11 @@
     <qresource prefix="/">
         <file>images/grass.jpg</file>
         <file>images/fundo.png</file>
+        <file>images/galinha.png</file>
+        <file>images/mapa.png</file>
+        <file>images/personagem.png</file>
+        <file>images/p.png</file>
+        <file>images/BonecoDir.png</file>
+        <file>images/BonecoEsq.png</file>
     </qresource>
 </RCC>
