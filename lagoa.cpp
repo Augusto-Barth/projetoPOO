@@ -1,4 +1,4 @@
-#include "casa.h"
+#include "lagoa.h"
 
 #include <QGraphicsScene>
 #include <QPainter>
@@ -12,29 +12,29 @@
 #include <QMouseEvent>
 #include <QGraphicsView>
 
-Casa::Casa(QGraphicsItem* parent) : Objeto(parent)
+Lagoa::Lagoa(QGraphicsItem* parent) : Objeto(parent)
 {
 
 }
 
-QString Casa::tipo(){
-    return "casa";
+QString Lagoa::tipo(){
+    return "lagoa";
 }
 
-bool Casa::atravessavel(){
+bool Lagoa::atravessavel(){
     return true;
 }
 
-QRectF Casa::boundingRect() const
+QRectF Lagoa::boundingRect() const
 {
     return QRectF(-25, -25, 125, 125);
 }
 
 
-QPainterPath Casa::shape() const
+QPainterPath Lagoa::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -15, 40, 30);
+    path.addRect(-20, -20, 40, 40);
 //    path.moveTo(-20, 80);
 //    path.lineTo(-20, -20);
 //    path.lineTo(100, -20);
@@ -50,15 +50,15 @@ QPainterPath Casa::shape() const
 }
 
 
-void Casa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void Lagoa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor marrom = QColor(150, 75, 0);
+    QColor azul = QColor(0, 0, 255);
     //painter->setBrush(marrom);
     QPainterPath path = shape();
     QPen pen;
     pen.setWidth(0);
     painter->setPen(pen);
-    painter->fillPath(path, QBrush(marrom));
+    painter->fillPath(path, QBrush(azul));
 //    painter->setBrush(marrom);
 //    painter->drawRect(50, 50, 10, 10);
 

@@ -8,6 +8,8 @@
 #include <QGraphicsTextItem>
 #include "objeto.h"
 
+class JanelaPrincipal;
+
 class Jogador : public Objeto
 {
 public:
@@ -23,9 +25,21 @@ public:
     bool colidiu();
     QString tipo();
     bool atravessavel();
-
+//    void adicionaInventario(QString item);
+    bool adicionaBanho();
+    bool adicionaRede();
+    bool adicionaGalinha();
+    std::vector<Objeto*> getColisoes(){return colisoes;}
+//    std::vector<std::string> getInventario(){return inventario;}
     //std::vector<bool> items; // 0 rede, 1 galinha
 
+//    void colocaTexto(QString textoParaColocar);
+
+    bool temBanho = false;
+    bool temRede = false;
+    bool temGalinha = false;
+
+//    QTimer *timer = new QTimer();
 protected:
 //    void advance(int step) override;
 
@@ -38,8 +52,11 @@ private:
     qreal mouseEyeDirection = 0;
     QPointF pontoMouse;
     std::vector<Objeto*> colisoes;
-    QGraphicsTextItem *texto;
-    QTimer *timer;
+//    std::vector<std::string> inventario;
+
+
+//    QGraphicsTextItem *texto = nullptr;
+
     QPixmap personagem;
 
 };

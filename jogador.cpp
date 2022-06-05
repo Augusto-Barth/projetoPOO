@@ -1,6 +1,7 @@
 #include "jogador.h"
 #include "porta.h"
 #include "objeto.h"
+#include "janelaprincipal.h"
 
 #include <QGraphicsScene>
 #include <QPainter>
@@ -19,6 +20,8 @@
 #include <QCursor>
 #include <QTimer>
 #include <QObject>
+#include <QCoreApplication>
+#include <QMessageBox>
 
 #include <chrono>
 #include <thread>
@@ -60,11 +63,12 @@ Jogador::Jogador(QGraphicsItem* parent) : Objeto(parent)
 {
     setRotation(0);
     personagem = QPixmap(":/images/BonecoDir.png");
+//    timer->setSingleShot(true);
 //    for(int i = 0; i < 3; i++)
 //        items[i] = false;
-//    this->timer = new QTimer();
-//    QObject::connect(timer, &QTimer::timeout, this, &Jogador::destroiTimer);
-//    timer->setSingleShot(true);
+//    this->
+
+//
 }
 //! [0]
 
@@ -85,7 +89,7 @@ void QGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 QRectF Jogador::boundingRect() const
 {
 
-    return QRectF(-40, -40, 80, 80);
+    return QRectF(0, 0, 52, 55);
 }
 //! [1]
 
@@ -93,7 +97,7 @@ QRectF Jogador::boundingRect() const
 QPainterPath Jogador::shape() const
 {
     QPainterPath path;
-    path.addRect(-40, -40, 80, 80);
+    path.addRect(0, 0, 55, 55);
     return path;
 }
 //! [2]
@@ -150,10 +154,10 @@ void Jogador::calculaColisoes(){
 
 void Jogador::keyPressEvent(QKeyEvent *event){
     int passo = 10;
-    int metadeTamanhoH = 20;
-    int metadeTamanhoV = 60;
+    int metadeTamanhoH = 50;
+    int metadeTamanhoV = 53;
     if(event->key() == Qt::Key_A){
-        if(x()-passo-metadeTamanhoH >= 0){
+        if(x()-passo >= 0){
             setPos(x()-passo, y());
             calculaColisoes();
             personagem = QPixmap(":/images/BonecoEsq.png");
@@ -171,7 +175,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_W){
-        if(y()-passo-metadeTamanhoV >= 0){
+        if(y()-passo >= 0){
             setPos(x(), y()-passo);
             calculaColisoes();
             if(colidiu())
@@ -190,32 +194,79 @@ void Jogador::keyPressEvent(QKeyEvent *event){
         calculaColisoes();
         std::vector<Objeto*>::iterator a;
         for(a = colisoes.begin(); a != colisoes.end(); a++){
-            qDebug() << (*a)->tipo();
+            if((*a)->tipo() == "casa"){
+                if(!temBanho){
+                    janela->colocaTexto("Ainda tô fedido");
+                }
+                else{
+                    if(!temRede){
+                        adicionaRede();
+                        janela->colocaTexto("Pegou rede");
+                    }
+                    else{
+                        janela->colocaTexto("Já tenho a rede");
+                    }
+                }
+            }
+            else if((*a)->tipo() == "lagoa"){
+                if(!temBanho){
+                    adicionaBanho();
+                    janela->colocaTexto("Tomei banho");
+                }
+                else{
+                    janela->colocaTexto("Já tomei banho");
+                }
+            }
+            else if((*a)->tipo() == "galinheiro"){
+                try{
+                    janela->acabaJogo();
+                }
+                catch(int erro){
+                    if(erro == -1)
+                        janela->colocaTexto("Tenho que pegar a galinha");
+                }
+            }
         }
     }
     else if(event->key() == Qt::Key_E){
 
-        std::FILE *f = std::fopen("/home/augusto/Documents/game.txt", "r");
-        //std::fstream f("/home/augusto/Documents/game.txt", std::fstream::in);
-        std::string textoArquivo;
-        int xJogador, yJogador;
-        std::fscanf(f, "%d %d", &xJogador, &yJogador);
-        std::fclose(f);
+//        std::FILE *f = std::fopen("/home/augusto/Documents/game.txt", "r");
+//        std::FILE *f = std::fopen("/game.txt", "r");
+        std::fstream f((QCoreApplication::applicationDirPath() + "/game.txt").toStdString(), std::fstream::in);
+        if(f.is_open()){
 
-        this->setPos(xJogador, yJogador);
-        scene()->views()[0]->centerOn(this);
+            //std::fstream f("/home/augusto/Documents/game.txt", std::fstream::in);
+            std::string textoArquivo;
+            int xJogador, yJogador;
+//            std::fscanf(f, "%d %d", &xJogador, &yJogador);
+//            std::fclose(f);
+            f >> xJogador;
+            f >> yJogador;
+            qDebug() << xJogador << " " << yJogador;
 
-        if(this->texto == nullptr){
-            texto = new QGraphicsTextItem;
-            texto->setPlainText(QString::fromStdString(std::to_string(xJogador) + " " + std::to_string(yJogador)));
-            texto->setPos(x()-metadeTamanhoH,y()-metadeTamanhoV-20);
-            scene()->addItem(texto);
+            this->setPos(xJogador, yJogador);
+            scene()->views()[0]->centerOn(this);
+
+            janela->colocaTexto(QString::fromStdString(std::to_string(xJogador) + " " + std::to_string(yJogador)));
+//            if(this->texto == nullptr){
+//                texto = new QGraphicsTextItem;
+//                texto->setPlainText(QString::fromStdString(std::to_string(xJogador) + " " + std::to_string(yJogador)));
+//                texto->setPos(x()-metadeTamanhoH,y()-metadeTamanhoV-20);
+//                scene()->addItem(texto);
+//            }
+//            else{
+//                texto->setPlainText(QString::fromStdString(std::to_string(xJogador) + " " + std::to_string(yJogador)));
+//                texto->setPos(x()-metadeTamanhoH,y()-metadeTamanhoV-20);
+//            }
+             f.close();
         }
         else{
-            texto->setPlainText(QString::fromStdString(std::to_string(xJogador) + " " + std::to_string(yJogador)));
-            texto->setPos(x()-metadeTamanhoH,y()-metadeTamanhoV-20);
-        }
+            qDebug() << "save não encontrado";
+            QMessageBox messageBox;
+            messageBox.critical(0,"Erro","Não foi encontrado um arquivo de save!");
+            messageBox.setFixedSize(500,200);
 
+        }
 //        timer = new QTimer;
 //        scene()->connect(timer, &QTimer::timeout, this, &Jogador::destroiTimer);
 //        timer->start(1000);
@@ -224,6 +275,8 @@ void Jogador::keyPressEvent(QKeyEvent *event){
     }
     else if(event->key() == Qt::Key_Q){
         calculaColisoes();
+//        adicionaInventario(QString("rede"));
+//        timer->start(1000);
         bool colidiu = false;
         std::vector<Objeto*>::iterator a;
         for(a = colisoes.begin(); a != colisoes.end(); a++){
@@ -232,16 +285,66 @@ void Jogador::keyPressEvent(QKeyEvent *event){
         }
         if(colidiu){
             qDebug() << x() << " " << y();
-            std::fstream f("/home/augusto/Documents/game.txt", std::fstream::out);
-            f << x() << " " << y();
+//            std::fstream f((QCoreApplication::applicationDirPath() + "/game.txt").toStdString(), std::fstream::out);
+            std::fstream f((QCoreApplication::applicationDirPath() + "/game.txt").toStdString(), std::fstream::out);
+//            qDebug() << (QCoreApplication::applicationDirPath() + "/game.txt");
+//            std::fstream f("/home/augusto/Documents/game.txt", std::fstream::out);
+            f << x() << " " << y() << "\n" << temRede;
             f.close();
         }
     }
 }
 
-void Jogador::destroiTimer(){
-    qDebug() << "acabo";
+//void Jogador::colocaTexto(QString textoParaColocar){
+//    if(texto == nullptr){
+//        texto = new QGraphicsTextItem;
+//        scene()->addItem(texto);
+//    }
+//    QFont fonte("Helvetica", 16);
+//    texto->setFont(fonte);
+//    texto->setPlainText(textoParaColocar);
+//    texto->setPos(x()-20,y()-30);
+//    texto->setVisible(true);
+//    timer->start(3000);
+//}
+
+//void Jogador::destroiTimer(){
+//    qDebug() << "acabo";
+//    if(texto != nullptr)
+//        texto->setVisible(false);
+//}
+
+//void Jogador::adicionaInventario(QString item){
+//    inventario.push_back(item.toStdString());
+//}
+
+bool Jogador::adicionaBanho(){
+    if(temBanho)
+        return false;
+    else{
+        temBanho = true;
+        return true;
+    }
 }
+
+bool Jogador::adicionaRede(){
+    if(temRede)
+        return false;
+    else{
+        temRede = true;
+        return true;
+    }
+}
+
+bool Jogador::adicionaGalinha(){
+    if(temGalinha)
+        return false;
+    else{
+        temGalinha = true;
+        return true;
+    }
+}
+
 
 //! [3]
 void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -286,8 +389,8 @@ void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 
 //    painter->drawPixmap(QPixmap(":/images/personagem.png"));
 //    painter->drawPixmap(-20, -60, QPixmap(":/images/personagem.png"), 40, 0, 40, 120);
-    painter->drawPixmap(-40, -40, personagem, 0, 0, 80, 80);
-    ensureVisible(QRectF(), 100, 100);
+    painter->drawPixmap(0, 0, personagem, 0, 0, 0, 0);
+    ensureVisible(QRectF(), 150, 150);
 
 //    auto pontoMouse = QCursor::pos() - this->scene()->views()[0]->pos();
 

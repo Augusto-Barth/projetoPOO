@@ -1,9 +1,11 @@
-#include "janelaprincipal.h"
 #include "jogador.h"
 #include "porta.h"
 #include "casa.h"
 #include "galinha.h"
 #include "galinheiro.h"
+#include "eventfilter.h"
+#include "janelaprincipal.h"
+#include "lagoa.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -42,14 +44,24 @@ JanelaPrincipal::JanelaPrincipal()
     scene->addItem(porta);
 
     Casa *casa = new Casa;
-    casa->setPos(900, 100);
+    casa->setPos(1240, 545);
     scene->addItem(casa);
 
     jogador = new Jogador;
-    jogador->setPos(900, 600);
+    jogador->setPos(800, 600);
     scene->addItem(jogador);
     jogador->setFlag(QGraphicsItem::ItemIsFocusable);
     jogador->setFocus();
+    jogador->janela = this;
+
+    timerTexto = new QTimer;
+    QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
+    timerTexto->setSingleShot(true);
+//    jogador->timer->start(1000);
+
+    Lagoa* lagoa = new Lagoa();
+    lagoa->setPos(200, 400);
+    scene->addItem(lagoa);
 
     QGraphicsTextItem *texto = new QGraphicsTextItem;
     texto->setPlainText("Qualquer coisa");
@@ -57,11 +69,11 @@ JanelaPrincipal::JanelaPrincipal()
     scene->addItem(texto);
 
     Galinha *galinha = new Galinha;
-    galinha->setPos(100, 600);
+    galinha->setPos(875, 135);
     scene->addItem(galinha);
 
     Galinheiro *galinheiro = new Galinheiro;
-    galinheiro->setPos(1270, 1180);
+    galinheiro->setPos(1270, 1000);
     scene->addItem(galinheiro);
 
     view->setScene(scene);
@@ -76,9 +88,19 @@ JanelaPrincipal::JanelaPrincipal()
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    EventFilter* filter = new EventFilter();
+    view->verticalScrollBar()->installEventFilter(filter);
+    view->horizontalScrollBar()->installEventFilter(filter);
+
+
     view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Jogo muito legal"));
     view->setFixedSize(1285, 725);
+
     view->show();
+
+    QTimer* timer = new QTimer;
+    QObject::connect(timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    timer->start(1000 / 33);
 
 }
 
@@ -101,4 +123,33 @@ void JanelaPrincipal::setup(){
 
     QMenu* yourMenu = bar->addMenu("Your Menu title");
     QAction* yourFirstAction = yourMenu->addAction("Your First Action");
+}
+
+//void JanelaPrincipal::destroiTimer(){
+//    jogador->destroiTimer();
+//}
+
+void JanelaPrincipal::colocaTexto(QString textoParaColocar){
+    if(texto == nullptr){
+        texto = new QGraphicsTextItem;
+        scene->addItem(texto);
+    }
+    QFont fonte("Helvetica", 16);
+    texto->setFont(fonte);
+    texto->setPlainText(textoParaColocar);
+    texto->setPos(jogador->x()-20,jogador->y()-30);
+    texto->setVisible(true);
+    timerTexto->start(3000);
+}
+
+void JanelaPrincipal::destroiTimer(){
+//    qDebug() << "acabo";
+    if(texto != nullptr)
+        texto->setVisible(false);
+}
+
+void JanelaPrincipal::acabaJogo(){
+    if(!jogador->temGalinha)
+        throw -1;
+    view->close();
 }

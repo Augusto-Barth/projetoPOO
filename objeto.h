@@ -4,6 +4,8 @@
 #include <QGraphicsItem>
 #include <QString>
 
+class JanelaPrincipal;
+
 class Objeto : public QGraphicsItem
 {
 private:
@@ -15,6 +17,8 @@ public:
     virtual QRectF boundingRect() const = 0;
     virtual QPainterPath shape() const = 0;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) = 0;
+
+    JanelaPrincipal* janela = nullptr;
 };
 
 #endif // OBJETO_H

@@ -16,6 +16,11 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QString tipo();
     bool atravessavel();
+protected:
+    void advance(int phase);
+
+private:
+    int passo = 0;
 };
 
 #endif // GALINHA_H

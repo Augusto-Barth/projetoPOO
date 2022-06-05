@@ -8,5 +8,7 @@
         <file>images/p.png</file>
         <file>images/BonecoDir.png</file>
         <file>images/BonecoEsq.png</file>
+        <file>images/teste.png</file>
+        <file>images/mapa2.png</file>
     </qresource>
 </RCC>

@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 
     //JanelaPrincipal janela(QPixmap(":/images/fundo.png"));
     JanelaPrincipal* janela = JanelaPrincipal::getInstancia();
-    janela->setImagem(QPixmap(":/images/mapa.png"));
+    janela->setImagem(QPixmap(":/images/mapa2.png"));
 
     return app.exec();
 }
