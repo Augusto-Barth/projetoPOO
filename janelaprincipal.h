@@ -5,7 +5,6 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 #include <QObject>
-#include <map>
 
 #include "jogador.h"
 #include "porta.h"
@@ -21,12 +20,12 @@ class JanelaPrincipal : public QObject
 {
     QGraphicsScene* scene = new QGraphicsScene;
     QGraphicsView* view = new QGraphicsView;
+
     static JanelaPrincipal* instancia;
     JanelaPrincipal();
     JanelaPrincipal (const JanelaPrincipal& obj);
     JanelaPrincipal operator=(JanelaPrincipal obj);
 
-//    std::map<std::string, QGraphicsItem*> items;
     Jogador* jogador = nullptr;
     Casa* casa = nullptr;
     Porta* porta = nullptr;
@@ -40,6 +39,8 @@ class JanelaPrincipal : public QObject
     QTimer* timerSobeTexto = nullptr;
 
     void sobeTexto();
+    void fechaView();
+    void destroiTimer();
 
 public:
     static JanelaPrincipal* getInstancia(){
@@ -56,15 +57,11 @@ public:
     Telhado* getTelhado(){return telhado;}
     RedeObjeto* getRedeObjeto(){return rede;}
     bool carregaJogo();
-    void setup();
-    void destroiTimer();
+
     void colocaTexto(QString textoParaColocar, int tempo, bool longo = false);
     void comecaJogo();
-    void acabaJogo();
+    void acabaJogo(bool pacifist = true);
 
-public slots:
-    void salvaJogo();
 };
 
-//JanelaPrincipal* JanelaPrincipal::instancia = nullptr;
 #endif // JANELAPRINCIPAL_H

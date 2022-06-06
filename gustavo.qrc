@@ -22,5 +22,17 @@
         <file>images/rede.png</file>
         <file>images/BonecoRedeDir.png</file>
         <file>images/BonecoRedeEsq.png</file>
+        <file>images/BonecoDir1.png</file>
+        <file>images/BonecoDir2.png</file>
+        <file>images/BonecoEsq1.png</file>
+        <file>images/BonecoEsq2.png</file>
+        <file>images/BonecoArmaDir1.png</file>
+        <file>images/BonecoArmaDir2.png</file>
+        <file>images/BonecoArmaEsq1.png</file>
+        <file>images/BonecoArmaEsq2.png</file>
+        <file>images/BonecoRedeDir1.png</file>
+        <file>images/BonecoRedeDir2.png</file>
+        <file>images/BonecoRedeEsq1.png</file>
+        <file>images/BonecoRedeEsq2.png</file>
     </qresource>
 </RCC>

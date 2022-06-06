@@ -22,42 +22,35 @@ public:
     void calculaColisoes();
     void pegaGalinha();
 
-    bool colidiu();
+
     QString tipo();
     bool atravessavel();
-//    void adicionaInventario(QString item);
+
     bool adicionaBanho();
     bool adicionaRede();
     bool adicionaGalinha();
     std::vector<Objeto*> getColisoes(){return colisoes;}
+    bool colidiu();
 
-//    std::vector<std::string> getInventario(){return inventario;}
-    //std::vector<bool> items; // 0 rede, 1 galinha
-
-//    void colocaTexto(QString textoParaColocar);
-
-    int putasso = 0;
+    int raiva = 0;
+    bool putasso = false;
+    int frame = 0;
     bool temBanho = false;
     bool temRede = false;
     bool temGalinha = false;
     bool naAgua = false;
 
-//    QTimer *timer = new QTimer();
 protected:
 
 public slots:
     void destroiTimer();
 
 private:
-    qreal angle = 0;
-    qreal speed = 0;
-    qreal mouseEyeDirection = 0;
+    int ultimaDirecao = 1;
     QPointF pontoMouse;
     std::vector<Objeto*> colisoes;
-//    std::vector<std::string> inventario;
 
-
-//    QGraphicsTextItem *texto = nullptr;
+    QPixmap atualizaJogador(int direcao, bool anda = true);
 
     QPixmap personagem;
     QPixmap personagemAgua;

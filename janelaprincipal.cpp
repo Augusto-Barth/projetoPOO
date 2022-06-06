@@ -17,7 +17,6 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
-#include <QPushButton>
 
 
 #include <fstream>
@@ -28,20 +27,7 @@ JanelaPrincipal::JanelaPrincipal()
 {
     scene->setSceneRect(0, 0, 1780, 1220);
 
-//    QGraphicsRectItem* rect = new QGraphicsRectItem;
-//    rect->setRect(0,0,600,600);
-//    scene.addItem(rect);
     scene->setStickyFocus(true);
-
-//    setup();
-//    QPushButton* salvar = new QPushButton();
-//    salvar->setText("SALVAR");
-//    salvar->setGeometry(30, 30, 120, 50);
-//    scene->addWidget(salvar);
-
-
-
-    //QGraphicsView::connect(salvar, &QPushButton::clicked, view, &JanelaPrincipal::salvaJogo);
 
 
     ColisoesGerais* colisoes = new ColisoesGerais;
@@ -52,7 +38,6 @@ JanelaPrincipal::JanelaPrincipal()
     rede->setPos(1240, 430);
     scene->addItem(rede);
 
-    // SEPARAR PORTA E TELHADO, POR CONTA DO ZHEIGHT
     porta = new Porta;
     porta->setPos(1142, 345);
     scene->addItem(porta);
@@ -80,19 +65,9 @@ JanelaPrincipal::JanelaPrincipal()
     scene->addItem(velha);
     velha->setZValue(2);
 
-    timerTexto = new QTimer;
-    QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
-    timerTexto->setSingleShot(true);
-//    jogador->timer->start(1000);
-
     Lagoa* lagoa = new Lagoa();
     lagoa->setPos(0, 0);
     scene->addItem(lagoa);
-
-//    QGraphicsTextItem *texto = new QGraphicsTextItem;
-//    texto->setPlainText("Qualquer coisa");
-//    texto->setPos(100,100);
-//    scene->addItem(texto);
 
     galinha = new Galinha;
     galinha->setPos(875, 145);
@@ -104,12 +79,12 @@ JanelaPrincipal::JanelaPrincipal()
 
     view->setScene(scene);
     view->setRenderHint(QPainter::Antialiasing);
-    //view->setBackgroundBrush(QPixmap(":/images/grass.png"));
 
     view->setFrameStyle(QFrame::Box);
 
     //view->setCacheMode(QGraphicsView::CacheBackground);
-    view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+//    view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     view->setDragMode(QGraphicsView::NoDrag);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -131,6 +106,10 @@ JanelaPrincipal::JanelaPrincipal()
     timerSobeTexto = new QTimer;
     QObject::connect(timerSobeTexto, &QTimer::timeout, this, &JanelaPrincipal::sobeTexto);
     timerSobeTexto->start(1000 / 33);
+
+    timerTexto = new QTimer;
+    QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
+    timerTexto->setSingleShot(true);
 
     comecaJogo();
 
@@ -189,10 +168,19 @@ void JanelaPrincipal::comecaJogo(){
     colocaTexto("F para interagir, F1 salvar, F2 carregar, F3 resetar", 5, true);
 }
 
-void JanelaPrincipal::acabaJogo(){
-    if(!jogador->temGalinha)
-        throw -1;
+void JanelaPrincipal::fechaView(){
     view->close();
+}
+
+void JanelaPrincipal::acabaJogo(bool pacifist){
+    if(!jogador->temGalinha && pacifist)
+        throw -4;
+    else if(!jogador->putasso && !pacifist)
+        throw -3;
+    QTimer* fimDeJogo = new QTimer;
+    QObject::connect(fimDeJogo, &QTimer::timeout, this, &JanelaPrincipal::fechaView);
+    fimDeJogo->setSingleShot(true);
+    fimDeJogo->start(2000);
 }
 
 void JanelaPrincipal::sobeTexto(){

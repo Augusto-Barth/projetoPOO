@@ -63,6 +63,9 @@ void Galinha::mousePressEvent(QGraphicsSceneMouseEvent *event){
         else if(erro == -2){
             janela->colocaTexto("O BICHO CORRE DEMAIS", 2);
         }
+        else if(erro == -3){
+            janela->colocaTexto("Pra quê?", 2);
+        }
     }
 
 }
