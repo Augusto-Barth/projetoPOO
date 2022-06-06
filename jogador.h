@@ -19,8 +19,6 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void keyPressEvent(QKeyEvent *event) override;
-    //void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void calculaColisoes();
     void pegaGalinha();
 
@@ -42,6 +40,7 @@ public:
     bool temBanho = false;
     bool temRede = false;
     bool temGalinha = false;
+    bool naAgua = false;
 
 //    QTimer *timer = new QTimer();
 protected:
@@ -61,7 +60,9 @@ private:
 //    QGraphicsTextItem *texto = nullptr;
 
     QPixmap personagem;
+    QPixmap personagemAgua;
     QPixmap personagemArma;
+    QPixmap personagemRede;
 
 };
 

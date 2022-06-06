@@ -1,6 +1,7 @@
 #include <QApplication>
 
 #include "janelaprincipal.h"
+#include <QIcon>
 
 int main(int argc, char **argv)
 {
@@ -9,6 +10,6 @@ int main(int argc, char **argv)
     //JanelaPrincipal janela(QPixmap(":/images/fundo.png"));
     JanelaPrincipal* janela = JanelaPrincipal::getInstancia();
     janela->setImagem(QPixmap(":/images/mapa3.png"));
-
+    app.setWindowIcon(QIcon(":/images/icone.png"));
     return app.exec();
 }

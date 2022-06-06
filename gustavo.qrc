@@ -16,5 +16,11 @@
         <file>images/apenasTelhado.png</file>
         <file>images/BonecoArmaDir.png</file>
         <file>images/BonecoArmaEsq.png</file>
+        <file>images/icone.png</file>
+        <file>images/BonecoBanhoDir.png</file>
+        <file>images/BonecoBanhoEsq.png</file>
+        <file>images/rede.png</file>
+        <file>images/BonecoRedeDir.png</file>
+        <file>images/BonecoRedeEsq.png</file>
     </qresource>
 </RCC>

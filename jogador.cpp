@@ -31,15 +31,6 @@
 constexpr qreal Pi = M_PI;
 constexpr qreal TwoPi = 2 * M_PI;
 
-static qreal normalizeAngle(qreal angle)
-{
-    while (angle < 0)
-        angle += TwoPi;
-    while (angle > TwoPi)
-        angle -= TwoPi;
-    return angle;
-}
-
 QString Jogador::tipo(){
     return "jogador";
 }
@@ -58,50 +49,28 @@ bool Jogador::colidiu(){
     return colidiu;
 }
 
-//! [0]
+
 Jogador::Jogador(QGraphicsItem* parent) : Objeto(parent)
 {
     setRotation(0);
     personagem = QPixmap(":/images/BonecoDir.png");
+    personagemAgua = QPixmap(":/images/BonecoBanhoEsq.png");
     personagemArma = QPixmap(":/images/BonecoArmaDir.png");
-//    timer->setSingleShot(true);
-//    for(int i = 0; i < 3; i++)
-//        items[i] = false;
-//    this->
-
-//
-}
-//! [0]
-
-void Jogador::mousePressEvent(QGraphicsSceneMouseEvent *event){
-
+    personagemRede = QPixmap(":/images/BonecoRedeDir.png");
 }
 
-void QGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-//    qDebug() << "asdqwe";
-//    auto pontoMouse = event->pos();
-//    qDebug() << pontoMouse.x() << " e " << pontoMouse.y();
-//    qreal pitagoras = qSqrt(qPow(pontoMouse.x(), 2) + qPow(pontoMouse.y(), 2));
-//    setRotation(pitagoras/pontoMouse.x());
-//    update();
-}
-
-//! [1]
 QRectF Jogador::boundingRect() const
 {
 
     return QRectF(0, 0, 58, 55);
 }
-//! [1]
 
-//! [2]
 QPainterPath Jogador::shape() const
 {
     QPainterPath path;
     path.addRect(0, 0, 52, 55);
     return path;
 }
-//! [2]
 
 void Jogador::calculaColisoes(){
     QVector<QGraphicsItem*> vect = scene()->collidingItems(this).toVector();
@@ -116,42 +85,6 @@ void Jogador::calculaColisoes(){
     }
 }
 
-//void Jogador::keyPressEvent(QKeyEvent *event){
-//    if(event->key() == Qt::Key_A){
-//        if(x()-10-20 >= 0)
-//            setPos(x()-10, y());
-//    }
-//    else if(event->key() == Qt::Key_D){
-//        if(x()+10+20 <= scene()->width())
-//            setPos(x()+10, y());
-//    }
-//    else if(event->key() == Qt::Key_W){
-//        if(y()-10-20 >= 0)
-//            setPos(x(), y()-10);
-//    }
-//    else if(event->key() == Qt::Key_S){
-//        if(y()+10+20 <= scene()->height())
-//            setPos(x(), y()+10);
-//    }
-//    else if(event->key() == Qt::Key_Q){
-//        calculaColisoes();
-//        std::vector<Objeto*>::iterator a;
-//        for(a = colisoes.begin(); a != colisoes.end(); a++){
-//            qDebug() << (*a)->tipo();
-//        }
-//    }
-//}
-
-
-//        colisao.moveTo(colisao.currentPosition().x()-20-passo, colisao.currentPosition().y());
-//        calculaColisoes();
-//        std::vector<Objeto*>::iterator a;
-//        for(a = colisoes.begin(); a != colisoes.end(); a++){
-//            colidiu = true;
-//        }
-//        colisao.moveTo(colisao.currentPosition().x()+20+passo, colisao.currentPosition().y());
-//        if(!colidiu)
-//            setPos(x()-passo, y());
 
 void Jogador::keyPressEvent(QKeyEvent *event){
 
@@ -160,14 +93,17 @@ void Jogador::keyPressEvent(QKeyEvent *event){
     int passo = 10;
     int metadeTamanhoH = 50;
     int metadeTamanhoV = 53;
-
+    naAgua = false;
     calculaColisoes();
     std::vector<Objeto*>::iterator a;
     for(a = colisoes.begin(); a != colisoes.end(); a++){
-        if((*a)->tipo() == "lagoa")
+        if((*a)->tipo() == "lagoa"){
             passo = 5;
-        else
+            naAgua = true;
+        }
+        else{
             passo = 10;
+        }
     }
 
     if(event->key() == Qt::Key_A){
@@ -175,7 +111,9 @@ void Jogador::keyPressEvent(QKeyEvent *event){
             setPos(x()-passo, y());
             calculaColisoes();
             personagem = QPixmap(":/images/BonecoEsq.png");
+            personagemAgua = QPixmap(":/images/BonecoBanhoEsq.png");
             personagemArma = QPixmap(":/images/BonecoArmaEsq.png");
+            personagemRede = QPixmap(":/images/BonecoRedeEsq.png");
             if(colidiu())
                 setPos(x()+passo, y());
         }
@@ -185,7 +123,9 @@ void Jogador::keyPressEvent(QKeyEvent *event){
             setPos(x()+passo, y());
             calculaColisoes();
             personagem = QPixmap(":/images/BonecoDir.png");
+            personagemAgua = QPixmap(":/images/BonecoBanhoDir.png");
             personagemArma = QPixmap(":/images/BonecoArmaDir.png");
+            personagemRede = QPixmap(":/images/BonecoRedeDir.png");
             if(colidiu())
                 setPos(x()-passo, y());
         }
@@ -215,17 +155,23 @@ void Jogador::keyPressEvent(QKeyEvent *event){
 //    player->setMedia(QUrl::fromLocalFile("/path"));
 //    player->setVolume(50);
 //    player->play();
-        if(putasso == 10){
-            scene()->update();
-            janela->colocaTexto("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 2);
+
+        // FAZER ANIMAÇÃO POR VARIAVEL COM %
+        // 3 FRAMES, ALTERAR ENTRE TODOS A CADA PASSO
+
+        if(colisoes.size() == 0){
+            if(putasso == 10){
+                scene()->update();
+                janela->colocaTexto("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 2);
+            }
+            else{
+                janela->colocaTexto("Nada para pegar aqui", 2);
+                putasso += 1;
+            }
         }
-        else if(colisoes.size() == 0){
-            janela->colocaTexto("Nada para pegar aqui", 2);
-            putasso += 1;
-        }
-        else{
             std::vector<Objeto*>::iterator a;
             for(a = colisoes.begin(); a != colisoes.end(); a++){
+
                 if((*a)->tipo() == "porta"){
                     Porta* porta = dynamic_cast<Porta*>(*a);
                     if(!temBanho){
@@ -234,6 +180,9 @@ void Jogador::keyPressEvent(QKeyEvent *event){
                     else{
                         porta->alteraVisibilidade();
                     }
+                }
+                else if(putasso == 10 && (*a)->tipo() != "porta"){
+                    janela->colocaTexto("TO MUITO PUTO", 2);
                 }
                 else if((*a)->tipo() == "rede"){
                     if(!temRede){
@@ -264,7 +213,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
                             janela->colocaTexto("Tenho que pegar a galinha", 2);
                     }
                 }
-            }
+
         }
     }
     else if(event->key() == Qt::Key_F2){
@@ -389,9 +338,18 @@ bool Jogador::adicionaGalinha(){
 //! [3]
 void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if(putasso == 10)
+    if(naAgua){
+        painter->drawPixmap(0, 0, personagemAgua, 0, 0, 0, 0);
+    }
+    else if(putasso == 10){
         painter->drawPixmap(0, 0, personagemArma, 0, 0, 0, 0);
-    else
-        painter->drawPixmap(0, 0, personagem, 0, 0, 0, 0);
+    }
+    else{
+        if(temRede)
+            painter->drawPixmap(0, 0, personagemRede, 0, 0, 0, 0);
+        else
+            painter->drawPixmap(0, 0, personagem, 0, 0, 0, 0);
+    }
     ensureVisible(QRectF(), 200, 200);
+    scene()->update();
 }

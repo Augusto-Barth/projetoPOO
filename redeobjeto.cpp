@@ -21,14 +21,14 @@ bool RedeObjeto::atravessavel(){
 
 QRectF RedeObjeto::boundingRect() const
 {
-    return QRectF(-20, -20, 40, 40);
+    return QRectF(0, 0, 40, 45);
 }
 
 
 QPainterPath RedeObjeto::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -20, 40, 40);
+    path.addRect(0, 0, 40, 45);
 
     return path;
 }
@@ -36,12 +36,5 @@ QPainterPath RedeObjeto::shape() const
 
 void RedeObjeto::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor cor = QColor(150, 75, 150);
-    //painter->setBrush(marrom);
-    QPainterPath path = shape();
-    QPen pen;
-    pen.setWidth(0);
-    painter->setPen(pen);
-    painter->fillPath(path, QBrush(cor));
-
+    painter->drawPixmap(0, 0, QPixmap(":/images/rede.png"), 0, 0, 0, 0);
 }

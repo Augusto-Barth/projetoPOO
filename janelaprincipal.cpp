@@ -49,7 +49,7 @@ JanelaPrincipal::JanelaPrincipal()
     scene->addItem(colisoes);
 
     rede = new RedeObjeto;
-    rede->setPos(1260, 450);
+    rede->setPos(1240, 430);
     scene->addItem(rede);
 
     // SEPARAR PORTA E TELHADO, POR CONTA DO ZHEIGHT
@@ -108,7 +108,7 @@ JanelaPrincipal::JanelaPrincipal()
 
     view->setFrameStyle(QFrame::Box);
 
-    view->setCacheMode(QGraphicsView::CacheBackground);
+    //view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     view->setDragMode(QGraphicsView::NoDrag);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
