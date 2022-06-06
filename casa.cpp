@@ -1,16 +1,8 @@
 #include "casa.h"
 
 #include <QGraphicsScene>
-#include <QPainter>
-#include <QRandomGenerator>
-#include <QStyleOption>
-#include <QtMath>
-#include <QKeyEvent>
-#include <QPointF>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QMouseEvent>
 #include <QGraphicsView>
+#include <QPainter>
 
 Casa::Casa(QGraphicsItem* parent) : Objeto(parent)
 {
@@ -22,19 +14,38 @@ QString Casa::tipo(){
 }
 
 bool Casa::atravessavel(){
-    return true;
+    return false;
 }
 
 QRectF Casa::boundingRect() const
 {
-    return QRectF(-25, -25, 125, 125);
+    return QRectF(0, -90, 176, 146);
 }
-
 
 QPainterPath Casa::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -15, 40, 30);
+    //path.addRect(0, -90, 176, 146);
+    path.moveTo(0, -90);
+    path.lineTo(179, -90);
+    path.lineTo(179, 56);
+    path.lineTo(80, 56);
+    path.lineTo(80, 50);
+    path.lineTo(178, 50);
+    path.lineTo(178, -91);
+    path.lineTo(0, -91);
+    path.lineTo(0, 56);
+    path.lineTo(16, 56);
+    path.lineTo(16, 50);
+    path.lineTo(0, 50);
+    path.lineTo(0, -90);
+
+    QPainterPath pathFechado;
+    pathFechado.moveTo(0, -90);
+    pathFechado.lineTo(179, -90);
+    pathFechado.lineTo(179, 0);
+    pathFechado.lineTo(0, 0);
+    pathFechado.lineTo(0, -90);
 //    path.moveTo(-20, 80);
 //    path.lineTo(-20, -20);
 //    path.lineTo(100, -20);
@@ -44,37 +55,23 @@ QPainterPath Casa::shape() const
 //    path.lineTo(-11, -11);
 //    path.lineTo(-11, 80);
 //    path.addRect(50, 50, 10, 10);
-
-
-    return path;
+    if(aberto)
+        return path;
+    else
+        return pathFechado;
 }
 
 
 void Casa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor marrom = QColor(150, 75, 0);
-    //painter->setBrush(marrom);
-    QPainterPath path = shape();
-    QPen pen;
-    pen.setWidth(0);
-    painter->setPen(pen);
-    painter->fillPath(path, QBrush(marrom));
-//    painter->setBrush(marrom);
-//    painter->drawRect(50, 50, 10, 10);
-
-
-//    // bloco
-//    painter->drawRect(-20,-20,40,40);
-//    painter->setPen(Qt::black);
-//    // bordas
-//    painter->drawLine(-20.0, -20.0, 20.0, -20.0);
-//    painter->drawLine(-20.0, 20.0, 20.0, 20.0);
-//    painter->drawLine(-20.0, -20.0, -20.0, 20.0);
-//    painter->drawLine(20.0, -20.0, 20.0, 20.0);
-//    // linhas do meio
-//    painter->drawLine(-10.0, -20.0, -10.0, 20.0);
-//    painter->drawLine(0.0, -20.0, 0.0, 20.0);
-//    painter->drawLine(10.0, -20.0, 10.0, 20.0);
-
+    painter->drawPixmap(0, 0, QPixmap(":/images/parede.png"), 0, 0, 0, 0);
+//        QColor azul = QColor(255, 0, 255);
+//        //painter->setBrush(marrom);
+//        QPainterPath path = shape();
+//        QPen pen;
+//        pen.setWidth(0);
+//        painter->setOpacity(0.3);
+//        painter->setPen(pen);
+//        painter->fillPath(path, QBrush(azul));
 
 }

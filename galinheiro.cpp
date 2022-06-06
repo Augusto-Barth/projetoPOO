@@ -1,16 +1,8 @@
 #include "galinheiro.h"
 
 #include <QGraphicsScene>
-#include <QPainter>
-#include <QRandomGenerator>
-#include <QStyleOption>
-#include <QtMath>
-#include <QKeyEvent>
-#include <QPointF>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QMouseEvent>
 #include <QGraphicsView>
+#include <QPainter>
 
 Galinheiro::Galinheiro(QGraphicsItem* parent) : Objeto(parent)
 {

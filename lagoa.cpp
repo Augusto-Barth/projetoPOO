@@ -1,16 +1,8 @@
 #include "lagoa.h"
 
 #include <QGraphicsScene>
-#include <QPainter>
-#include <QRandomGenerator>
-#include <QStyleOption>
-#include <QtMath>
-#include <QKeyEvent>
-#include <QPointF>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QMouseEvent>
 #include <QGraphicsView>
+#include <QPainter>
 
 Lagoa::Lagoa(QGraphicsItem* parent) : Objeto(parent)
 {
@@ -27,54 +19,37 @@ bool Lagoa::atravessavel(){
 
 QRectF Lagoa::boundingRect() const
 {
-    return QRectF(-25, -25, 125, 125);
+    return QRectF(0, 0, 560, 1250);
 }
 
 
 QPainterPath Lagoa::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -20, 40, 40);
-//    path.moveTo(-20, 80);
-//    path.lineTo(-20, -20);
-//    path.lineTo(100, -20);
-//    path.lineTo(100, 80);
-//    path.lineTo(91, 80);
-//    path.lineTo(91, -11);
-//    path.lineTo(-11, -11);
-//    path.lineTo(-11, 80);
-//    path.addRect(50, 50, 10, 10);
-
-
+//    path.addRect(-20, -20, 40, 40);
+    path.moveTo(0, 250);
+    path.lineTo(285, 335);
+    path.lineTo(140, 400);
+    path.lineTo(170, 490);
+//    path.lineTo(150, 510);
+    path.lineTo(310, 860);
+    path.lineTo(470, 980);
+    path.lineTo(580, 1250);
+    path.lineTo(0, 1250);
+    path.lineTo(0, 220);
     return path;
 }
 
 
 void Lagoa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor azul = QColor(0, 0, 255);
-    //painter->setBrush(marrom);
-    QPainterPath path = shape();
-    QPen pen;
-    pen.setWidth(0);
-    painter->setPen(pen);
-    painter->fillPath(path, QBrush(azul));
-//    painter->setBrush(marrom);
-//    painter->drawRect(50, 50, 10, 10);
-
-
-//    // bloco
-//    painter->drawRect(-20,-20,40,40);
-//    painter->setPen(Qt::black);
-//    // bordas
-//    painter->drawLine(-20.0, -20.0, 20.0, -20.0);
-//    painter->drawLine(-20.0, 20.0, 20.0, 20.0);
-//    painter->drawLine(-20.0, -20.0, -20.0, 20.0);
-//    painter->drawLine(20.0, -20.0, 20.0, 20.0);
-//    // linhas do meio
-//    painter->drawLine(-10.0, -20.0, -10.0, 20.0);
-//    painter->drawLine(0.0, -20.0, 0.0, 20.0);
-//    painter->drawLine(10.0, -20.0, 10.0, 20.0);
-
+//    QColor azul = QColor(255, 0, 255);
+//    //painter->setBrush(marrom);
+//    QPainterPath path = shape();
+//    QPen pen;
+//    pen.setWidth(0);
+//    painter->setOpacity(0.3);
+//    painter->setPen(pen);
+//    painter->fillPath(path, QBrush(azul));
 
 }

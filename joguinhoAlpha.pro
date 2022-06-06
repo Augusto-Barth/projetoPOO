@@ -1,7 +1,8 @@
-QT += widgets
+QT += widgets core gui
 
 SOURCES += \
     casa.cpp \
+    colisoesgerais.cpp \
     eventfilter.cpp \
     galinha.cpp \
     galinheiro.cpp \
@@ -10,10 +11,14 @@ SOURCES += \
     lagoa.cpp \
     main.cpp \
     objeto.cpp \
-    porta.cpp
+    porta.cpp \
+    redeobjeto.cpp \
+    telhado.cpp \
+    velha.cpp
 
 HEADERS += \
     casa.h \
+    colisoesgerais.h \
     eventfilter.h \
     galinha.h \
     galinheiro.h \
@@ -21,7 +26,10 @@ HEADERS += \
     jogador.h \
     lagoa.h \
     objeto.h \
-    porta.h
+    porta.h \
+    redeobjeto.h \
+    telhado.h \
+    velha.h
 
 RESOURCES += \
     gustavo.qrc

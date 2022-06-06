@@ -1,22 +1,21 @@
-#ifndef CASA_H
-#define CASA_H
+#ifndef TELHADO_H
+#define TELHADO_H
 
 #include "objeto.h"
 
-class Casa : public Objeto
+class Telhado : public Objeto
 {
 private:
 
 public:
-    Casa(QGraphicsItem* parent = nullptr);
+    Telhado(QGraphicsItem* parent = nullptr);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QString tipo();
     bool atravessavel();
-    void alteraZ();
-    bool aberto = false;
+    bool visivel = true;
 };
 
-#endif // CASA_H
+#endif // TELHADO_H

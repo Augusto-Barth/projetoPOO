@@ -18,7 +18,7 @@ public:
     virtual QPainterPath shape() const = 0;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) = 0;
 
-    JanelaPrincipal* janela = nullptr;
+    // REMOVER ISSO AQUI E USAR GETINSTANCIA()
 };
 
 #endif // OBJETO_H

@@ -6,6 +6,10 @@
 #include "eventfilter.h"
 #include "janelaprincipal.h"
 #include "lagoa.h"
+#include "redeobjeto.h"
+#include "velha.h"
+#include "colisoesgerais.h"
+#include "telhado.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -39,20 +43,42 @@ JanelaPrincipal::JanelaPrincipal()
 
     //QGraphicsView::connect(salvar, &QPushButton::clicked, view, &JanelaPrincipal::salvaJogo);
 
-    Porta *porta = new Porta;
-    porta->setPos(200, 200);
-    scene->addItem(porta);
 
-    Casa *casa = new Casa;
-    casa->setPos(1240, 545);
+    ColisoesGerais* colisoes = new ColisoesGerais;
+    colisoes->setPos(0, 0);
+    scene->addItem(colisoes);
+
+    rede = new RedeObjeto;
+    rede->setPos(1260, 450);
+    scene->addItem(rede);
+
+    // SEPARAR PORTA E TELHADO, POR CONTA DO ZHEIGHT
+    porta = new Porta;
+    porta->setPos(1142, 345);
+    scene->addItem(porta);
+    porta->setZValue(0);
+
+    telhado = new Telhado;
+    telhado->setPos(1142, 345);
+    scene->addItem(telhado);
+    telhado->setZValue(2);
+
+    casa = new Casa;
+    casa->setPos(1158, 476);
     scene->addItem(casa);
+    casa->setZValue(0);
 
     jogador = new Jogador;
     jogador->setPos(800, 600);
     scene->addItem(jogador);
     jogador->setFlag(QGraphicsItem::ItemIsFocusable);
     jogador->setFocus();
-    jogador->janela = this;
+    jogador->setZValue(1);
+
+    Velha* velha = new Velha;
+    velha->setPos(1150, 360);
+    scene->addItem(velha);
+    velha->setZValue(2);
 
     timerTexto = new QTimer;
     QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
@@ -60,16 +86,16 @@ JanelaPrincipal::JanelaPrincipal()
 //    jogador->timer->start(1000);
 
     Lagoa* lagoa = new Lagoa();
-    lagoa->setPos(200, 400);
+    lagoa->setPos(0, 0);
     scene->addItem(lagoa);
 
-    QGraphicsTextItem *texto = new QGraphicsTextItem;
-    texto->setPlainText("Qualquer coisa");
-    texto->setPos(100,100);
-    scene->addItem(texto);
+//    QGraphicsTextItem *texto = new QGraphicsTextItem;
+//    texto->setPlainText("Qualquer coisa");
+//    texto->setPos(100,100);
+//    scene->addItem(texto);
 
-    Galinha *galinha = new Galinha;
-    galinha->setPos(875, 135);
+    galinha = new Galinha;
+    galinha->setPos(875, 145);
     scene->addItem(galinha);
 
     Galinheiro *galinheiro = new Galinheiro;
@@ -93,14 +119,20 @@ JanelaPrincipal::JanelaPrincipal()
     view->horizontalScrollBar()->installEventFilter(filter);
 
 
-    view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Jogo muito legal"));
+    view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Betty Revengeance 2  : Electric Boogaloo"));
     view->setFixedSize(1285, 725);
 
     view->show();
 
-    QTimer* timer = new QTimer;
-    QObject::connect(timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-    timer->start(1000 / 33);
+    timerJanelaPrincipal = new QTimer;
+    QObject::connect(timerJanelaPrincipal, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    timerJanelaPrincipal->start(1000 / 17);
+
+    timerSobeTexto = new QTimer;
+    QObject::connect(timerSobeTexto, &QTimer::timeout, this, &JanelaPrincipal::sobeTexto);
+    timerSobeTexto->start(1000 / 33);
+
+    comecaJogo();
 
 }
 
@@ -109,37 +141,27 @@ void JanelaPrincipal::setImagem(QPixmap imagem)
     view->setBackgroundBrush(imagem);
 }
 
-void JanelaPrincipal::salvaJogo(){
-    std::fstream f("game.txt", std::fstream::out);
-    f << jogador->x() << " " << jogador->y();
-//    for(int i = 0; i < 3; i++)
-//        f << jogador->items[i];
-    f.close();
-}
-
-void JanelaPrincipal::setup(){
-    QMenuBar *bar = new QMenuBar();
-    scene->addWidget(bar);
-
-    QMenu* yourMenu = bar->addMenu("Your Menu title");
-    QAction* yourFirstAction = yourMenu->addAction("Your First Action");
-}
-
-//void JanelaPrincipal::destroiTimer(){
-//    jogador->destroiTimer();
-//}
-
-void JanelaPrincipal::colocaTexto(QString textoParaColocar){
+void JanelaPrincipal::colocaTexto(QString textoParaColocar, int tempo, bool longo){
     if(texto == nullptr){
         texto = new QGraphicsTextItem;
+        texto->setZValue(10);
         scene->addItem(texto);
+        QFont fonte("Helvetica", 16);
+//        fonte.setStyleStrategy(QFont::ForceOutline);
+        texto->setDefaultTextColor(QColor(255, 255, 255));
+        texto->setFont(fonte);
     }
-    QFont fonte("Helvetica", 16);
-    texto->setFont(fonte);
+
     texto->setPlainText(textoParaColocar);
-    texto->setPos(jogador->x()-20,jogador->y()-30);
+    texto->setPos(jogador->x()-25,jogador->y()-30);
+    texto->setOpacity(1);
     texto->setVisible(true);
-    timerTexto->start(3000);
+    if(longo)
+        timerSobeTexto->setInterval(1000/10);
+    else
+        timerSobeTexto->setInterval(1000/33);
+    timerTexto->start(tempo*1000);
+
 }
 
 void JanelaPrincipal::destroiTimer(){
@@ -148,8 +170,36 @@ void JanelaPrincipal::destroiTimer(){
         texto->setVisible(false);
 }
 
+void JanelaPrincipal::comecaJogo(){
+    jogador->putasso = 0;
+    jogador->temBanho = false;
+    jogador->temRede = false;
+    jogador->temGalinha = false;
+    jogador->setPos(800, 600);
+
+    galinha->setVisible(true);
+    rede->setVisible(true);
+
+    casa->setZValue(0);
+    casa->aberto = false;
+    porta->setOpacity(1);
+    telhado->setOpacity(1);
+
+    view->centerOn(jogador);
+    colocaTexto("F para interagir, F1 salvar, F2 carregar, F3 resetar", 5, true);
+}
+
 void JanelaPrincipal::acabaJogo(){
     if(!jogador->temGalinha)
         throw -1;
     view->close();
+}
+
+void JanelaPrincipal::sobeTexto(){
+    if(texto != nullptr){
+        if(texto->isVisible()){
+            texto->setOpacity(texto->opacity()-0.01);
+            texto->setPos(texto->x(), texto->y()-1);
+        }
+    }
 }

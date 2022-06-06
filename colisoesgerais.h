@@ -1,22 +1,18 @@
-#ifndef CASA_H
-#define CASA_H
+#ifndef COLISOESGERAIS_H
+#define COLISOESGERAIS_H
 
 #include "objeto.h"
 
-class Casa : public Objeto
+class ColisoesGerais : public Objeto
 {
-private:
-
 public:
-    Casa(QGraphicsItem* parent = nullptr);
+    ColisoesGerais(QGraphicsItem* parent = nullptr);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QString tipo();
     bool atravessavel();
-    void alteraZ();
-    bool aberto = false;
 };
 
-#endif // CASA_H
+#endif // COLISOESGERAIS_H

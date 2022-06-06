@@ -1,22 +1,20 @@
-#ifndef CASA_H
-#define CASA_H
+#ifndef VELHA_H
+#define VELHA_H
 
 #include "objeto.h"
 
-class Casa : public Objeto
+class Velha : public Objeto
 {
 private:
 
 public:
-    Casa(QGraphicsItem* parent = nullptr);
+    Velha(QGraphicsItem* parent = nullptr);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QString tipo();
     bool atravessavel();
-    void alteraZ();
-    bool aberto = false;
 };
 
-#endif // CASA_H
+#endif // VELHA_H

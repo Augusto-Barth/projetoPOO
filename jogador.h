@@ -22,6 +22,8 @@ public:
     //void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void calculaColisoes();
+    void pegaGalinha();
+
     bool colidiu();
     QString tipo();
     bool atravessavel();
@@ -30,18 +32,19 @@ public:
     bool adicionaRede();
     bool adicionaGalinha();
     std::vector<Objeto*> getColisoes(){return colisoes;}
+
 //    std::vector<std::string> getInventario(){return inventario;}
     //std::vector<bool> items; // 0 rede, 1 galinha
 
 //    void colocaTexto(QString textoParaColocar);
 
+    int putasso = 0;
     bool temBanho = false;
     bool temRede = false;
     bool temGalinha = false;
 
 //    QTimer *timer = new QTimer();
 protected:
-//    void advance(int step) override;
 
 public slots:
     void destroiTimer();
@@ -58,6 +61,7 @@ private:
 //    QGraphicsTextItem *texto = nullptr;
 
     QPixmap personagem;
+    QPixmap personagemArma;
 
 };
 

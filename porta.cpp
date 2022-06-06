@@ -1,16 +1,9 @@
 #include "porta.h"
+#include "janelaprincipal.h"
 
 #include <QGraphicsScene>
-#include <QPainter>
-#include <QRandomGenerator>
-#include <QStyleOption>
-#include <QtMath>
-#include <QKeyEvent>
-#include <QPointF>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QMouseEvent>
 #include <QGraphicsView>
+#include <QPainter>
 
 Porta::Porta(QGraphicsItem* parent) : Objeto(parent)
 {
@@ -28,34 +21,40 @@ bool Porta::atravessavel(){
 QRectF Porta::boundingRect() const
 {
 
-    return QRectF(-20, -20, 40, 40);
+    return QRectF(0, 0, 208, 192);
 }
 
 
 QPainterPath Porta::shape() const
 {
     QPainterPath path;
-    path.addRect(-20, -20, 40, 40);
+    path.addRect(65, 182, 5, 5);
     return path;
 }
 
+void Porta::alteraVisibilidade(){
+    JanelaPrincipal* janela = JanelaPrincipal::getInstancia();
+    Casa* casa = janela->getCasa();
+    Telhado* telhado = janela->getTelhado();
+    if(!casa->aberto){
+//        setVisible(false);
+        casa->setZValue(2);
+        casa->aberto = true;
+        setOpacity(0);
+        telhado->setOpacity(0);
+    }
+    else{
+//        setVisible(true);
+        casa->setZValue(0);
+        casa->aberto = false;
+        setOpacity(1);
+        telhado->setOpacity(1);
+    }
+}
 
 void Porta::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor marrom = QColor(150, 75, 0);
-    painter->setBrush(marrom);
-    // bloco
-    painter->drawRect(-20,-20,40,40);
-    painter->setPen(Qt::black);
-    // bordas
-    painter->drawLine(-20.0, -20.0, 20.0, -20.0);
-    painter->drawLine(-20.0, 20.0, 20.0, 20.0);
-    painter->drawLine(-20.0, -20.0, -20.0, 20.0);
-    painter->drawLine(20.0, -20.0, 20.0, 20.0);
-    // linhas do meio
-    painter->drawLine(-10.0, -20.0, -10.0, 20.0);
-    painter->drawLine(0.0, -20.0, 0.0, 20.0);
-    painter->drawLine(10.0, -20.0, 10.0, 20.0);
 
+    painter->drawPixmap(40, 140, QPixmap(":/images/apenasPorta.png"), 0, 0, 0, 0);
 
 }

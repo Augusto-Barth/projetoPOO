@@ -3,6 +3,8 @@
 
 #include "objeto.h"
 
+class JanelaPrincipal;
+
 class Porta : public Objeto
 {
 private:
@@ -15,6 +17,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QString tipo();
     bool atravessavel();
+    void alteraVisibilidade();
+    bool visivel = true;
 };
 
 #endif // PORTA_H

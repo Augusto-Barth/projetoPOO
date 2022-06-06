@@ -53,33 +53,16 @@ void Galinha::mousePressEvent(QGraphicsSceneMouseEvent *event){
 //    }
 
     Jogador* jogador = janela->getJogador();
-    jogador->calculaColisoes();
-    bool colidiu = false;
-    std::vector<Objeto*>::iterator a;
-    std::vector<Objeto*> colisoes = jogador->getColisoes();
-    for(a = colisoes.begin(); a != colisoes.end(); a++){
-        if((*a)->tipo() == "galinha")
-            colidiu = true;
-    }
     try{
-//        pegar();
+        jogador->pegaGalinha();
     }
     catch(int erro){
         if(erro == -1){
-
+            janela->colocaTexto("Não tenho telepatia", 2);
         }
-    }
-    if(!colidiu)
-        janela->colocaTexto("Não tenho telepatia");
-    else if(jogador->temRede){
-        qDebug() << "pegou";
-        jogador->adicionaGalinha();
-        janela->colocaTexto("Peguei a galinha");
-        this->setVisible(false);
-    }
-    else{
-        janela->colocaTexto("O BICHO CORRE DEMAIS");
-        qDebug() << "O BICHO CORRE DEMAIS";
+        else if(erro == -2){
+            janela->colocaTexto("O BICHO CORRE DEMAIS", 2);
+        }
     }
 
 }
@@ -109,11 +92,11 @@ void Galinha::advance(int phase){
         return;
     passo = (passo+1)%4;
     if(passo == 0)
-        setPos(x(),y()+3);
+        setPos(x(),y()+15);
     else if(passo == 1)
-        setPos(x(),y()-3);
+        setPos(x(),y()-15);
     else if(passo == 2)
-        setPos(x()+3,y());
+        setPos(x()+15,y());
     else if(passo == 3)
-        setPos(x()-3,y());
+        setPos(x()-15,y());
 }
