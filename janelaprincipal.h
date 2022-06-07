@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QElapsedTimer>
 #include <QObject>
 
 #include "jogador.h"
@@ -37,6 +38,7 @@ class JanelaPrincipal : public QObject
     QTimer* timerTexto = nullptr;
     QTimer* timerJanelaPrincipal = nullptr;
     QTimer* timerSobeTexto = nullptr;
+    QElapsedTimer* tempoDeJogo = nullptr;
 
     void sobeTexto();
     void fechaView();

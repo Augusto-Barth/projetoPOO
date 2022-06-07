@@ -203,7 +203,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
 //    player->setVolume(50);
 //    player->play();
 
-
+        // NÃO, SÓ NÃO
         if(colisoes.size() == 0){
             if(raiva == 10){
                 putasso = true;
@@ -232,8 +232,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
                     janela->colocaTexto("TO MUITO PUTO", 2);
                 }
                 else if((*a)->tipo() == "rede"){
-                    if(!temRede){
-                        adicionaRede();
+                    if(adicionaRede()){
                         (*a)->setVisible(false);
                         janela->colocaTexto("Pegou rede", 2);
                     }
@@ -243,8 +242,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
 
                 }
                 else if((*a)->tipo() == "lagoa"){
-                    if(!temBanho){
-                        adicionaBanho();
+                    if(adicionaBanho()){
                         janela->colocaTexto("Tomei banho", 2);
                     }
                     else{
@@ -253,8 +251,9 @@ void Jogador::keyPressEvent(QKeyEvent *event){
                 }
                 else if((*a)->tipo() == "galinheiro"){
                     try{
-                        janela->colocaTexto("Consegui pegar a galinha!", 4, true);
+//                        janela->colocaTexto("Consegui pegar a galinha!", 4, true);
                         janela->acabaJogo();
+                        janela->colocaTexto("Consegui pegar a galinha!", 4, true);
                     }
                     catch(int erro){
                         if(erro == -4)
@@ -263,6 +262,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
                 }
 
         }
+            personagem = atualizaJogador(ultimaDirecao, false);
     }
     else if(event->key() == Qt::Key_F2){
 
@@ -324,6 +324,7 @@ void Jogador::keyPressEvent(QKeyEvent *event){
     }
     else if(event->key() == Qt::Key_F3){
         janela->comecaJogo();
+        personagem = atualizaJogador(ultimaDirecao, false);
     }
 }
 

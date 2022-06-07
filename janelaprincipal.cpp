@@ -17,7 +17,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
-
+#include <QGraphicsPixmapItem>
 
 #include <fstream>
 
@@ -29,6 +29,9 @@ JanelaPrincipal::JanelaPrincipal()
 
     scene->setStickyFocus(true);
 
+    view->setBackgroundBrush(QColor(0, 0, 0));
+    QGraphicsPixmapItem* back = scene->addPixmap(QPixmap(":/images/mapa3.png"));
+    back->setPos(0, 0);
 
     ColisoesGerais* colisoes = new ColisoesGerais;
     colisoes->setPos(0, 0);
@@ -95,7 +98,8 @@ JanelaPrincipal::JanelaPrincipal()
 
 
     view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Betty Revengeance 2  : Electric Boogaloo"));
-    view->setFixedSize(1285, 725);
+//    view->setFixedSize(1285, 725);
+//    view->size
 
     view->show();
 
@@ -106,6 +110,9 @@ JanelaPrincipal::JanelaPrincipal()
     timerSobeTexto = new QTimer;
     QObject::connect(timerSobeTexto, &QTimer::timeout, this, &JanelaPrincipal::sobeTexto);
     timerSobeTexto->start(1000 / 33);
+
+    tempoDeJogo = new QElapsedTimer;
+    tempoDeJogo->start();
 
     timerTexto = new QTimer;
     QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
@@ -164,6 +171,7 @@ void JanelaPrincipal::comecaJogo(){
     porta->setOpacity(1);
     telhado->setOpacity(1);
 
+    tempoDeJogo->restart();
     view->centerOn(jogador);
     colocaTexto("F para interagir, F1 salvar, F2 carregar, F3 resetar", 5, true);
 }
@@ -177,6 +185,7 @@ void JanelaPrincipal::acabaJogo(bool pacifist){
         throw -4;
     else if(!jogador->putasso && !pacifist)
         throw -3;
+    colocaTexto(QString::number(tempoDeJogo->elapsed()/1000.0) + "s", 4, true);
     QTimer* fimDeJogo = new QTimer;
     QObject::connect(fimDeJogo, &QTimer::timeout, this, &JanelaPrincipal::fechaView);
     fimDeJogo->setSingleShot(true);
