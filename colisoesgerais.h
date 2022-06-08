@@ -5,12 +5,13 @@
 
 class ColisoesGerais : public Objeto
 {
-public:
-    ColisoesGerais(QGraphicsItem* parent = nullptr);
-
+private:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+public:
+    ColisoesGerais(QGraphicsItem* parent = nullptr);
+
     QString tipo();
     bool atravessavel();
 };

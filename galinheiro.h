@@ -5,12 +5,13 @@
 
 class Galinheiro : public Objeto
 {
-public:
-    Galinheiro(QGraphicsItem* parent = nullptr);
-
+private:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+public:
+    Galinheiro(QGraphicsItem* parent = nullptr);
+
     QString tipo();
     bool atravessavel();
 };

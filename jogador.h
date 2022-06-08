@@ -8,54 +8,44 @@
 #include <QGraphicsTextItem>
 #include "objeto.h"
 
-class JanelaPrincipal;
-
 class Jogador : public Objeto
 {
-public:
-    Jogador(QGraphicsItem* parent = nullptr);
-
+private:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void calculaColisoes();
-    void pegaGalinha();
 
-
-    QString tipo();
-    bool atravessavel();
-
-    bool adicionaBanho();
-    bool adicionaRede();
-    bool adicionaGalinha();
-    std::vector<Objeto*> getColisoes(){return colisoes;}
-    bool colidiu();
-
-    int raiva = 0;
-    bool putasso = false;
     int frame = 0;
+    int ultimaDirecao = 1;
+    int raiva = 0;
     bool temBanho = false;
     bool temRede = false;
     bool temGalinha = false;
     bool naAgua = false;
-
-protected:
-
-public slots:
-    void destroiTimer();
-
-private:
-    int ultimaDirecao = 1;
-    QPointF pontoMouse;
+    bool putasso = false;
     std::vector<Objeto*> colisoes;
 
-    QPixmap atualizaJogador(int direcao, bool anda = true);
+    bool adicionaBanho();
+    bool adicionaRede();
+    bool adicionaGalinha();
+    void calculaColisoes();
+    void atualizaJogador(bool anda = true);
 
     QPixmap personagem;
-    QPixmap personagemAgua;
-    QPixmap personagemArma;
-    QPixmap personagemRede;
+
+public:
+    Jogador(QGraphicsItem* parent = nullptr);
+
+    QString tipo();
+    bool atravessavel();
+    void pegaGalinha();
+    bool colidiu();
+    void resetaPersonagem();
+
+    bool getTemGalinha(){return temGalinha;}
+    bool getPutasso(){return putasso;}
+    std::vector<Objeto*> getColisoes(){return colisoes;}
 
 };
 

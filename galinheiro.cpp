@@ -34,10 +34,6 @@ QPainterPath Galinheiro::shape() const
 
 void Galinheiro::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QColor marrom = QColor(255, 255, 0);
-    painter->setBrush(marrom);
-    // bloco
-    painter->drawRect(-40, -40, 80, 80);
 
 
 }

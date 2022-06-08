@@ -1,4 +1,6 @@
-QT += widgets core gui
+TEMPLATE = app
+TARGET = joguinhoAlpha
+QT = widgets core gui multimedia
 
 SOURCES += \
     casa.cpp \

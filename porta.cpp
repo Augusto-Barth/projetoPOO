@@ -37,14 +37,12 @@ void Porta::alteraVisibilidade(){
     Casa* casa = janela->getCasa();
     Telhado* telhado = janela->getTelhado();
     if(!casa->aberto){
-//        setVisible(false);
         casa->setZValue(2);
         casa->aberto = true;
         setOpacity(0);
         telhado->setOpacity(0);
     }
     else{
-//        setVisible(true);
         casa->setZValue(0);
         casa->aberto = false;
         setOpacity(1);

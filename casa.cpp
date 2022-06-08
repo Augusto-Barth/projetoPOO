@@ -66,7 +66,6 @@ void Casa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(0, 0, QPixmap(":/images/parede.png"), 0, 0, 0, 0);
 //        QColor azul = QColor(255, 0, 255);
-//        //painter->setBrush(marrom);
 //        QPainterPath path = shape();
 //        QPen pen;
 //        pen.setWidth(0);

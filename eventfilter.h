@@ -7,10 +7,10 @@ class EventFilter : public QObject
 {
     Q_OBJECT
 
-  public:
+public:
     EventFilter(QObject *parent = nullptr);
 
-  protected:
+protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 };
 

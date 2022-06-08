@@ -5,12 +5,13 @@
 
 class RedeObjeto : public Objeto
 {
-public:
-    RedeObjeto(QGraphicsItem* parent = nullptr);
-
+private:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+public:
+    RedeObjeto(QGraphicsItem* parent = nullptr);
+
     QString tipo();
     bool atravessavel();
 };

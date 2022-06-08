@@ -34,5 +34,6 @@
         <file>images/BonecoRedeDir2.png</file>
         <file>images/BonecoRedeEsq1.png</file>
         <file>images/BonecoRedeEsq2.png</file>
+        <file>images/tiro.mp3</file>
     </qresource>
 </RCC>

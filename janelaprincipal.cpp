@@ -77,7 +77,7 @@ JanelaPrincipal::JanelaPrincipal()
     scene->addItem(galinha);
 
     Galinheiro *galinheiro = new Galinheiro;
-    galinheiro->setPos(1270, 1000);
+    galinheiro->setPos(1170, 1050);
     scene->addItem(galinheiro);
 
     view->setScene(scene);
@@ -97,7 +97,7 @@ JanelaPrincipal::JanelaPrincipal()
     view->horizontalScrollBar()->installEventFilter(filter);
 
 
-    view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Betty Revengeance 2  : Electric Boogaloo"));
+    view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Betty Hunter's 2: Call of the Wild Electric Boogaloo Special Collector's Edition Remastered"));
 //    view->setFixedSize(1285, 725);
 //    view->size
 
@@ -115,16 +115,11 @@ JanelaPrincipal::JanelaPrincipal()
     tempoDeJogo->start();
 
     timerTexto = new QTimer;
-    QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTimer);
+    QObject::connect(timerTexto, &QTimer::timeout, this, &JanelaPrincipal::destroiTexto);
     timerTexto->setSingleShot(true);
 
     comecaJogo();
 
-}
-
-void JanelaPrincipal::setImagem(QPixmap imagem)
-{
-    view->setBackgroundBrush(imagem);
 }
 
 void JanelaPrincipal::colocaTexto(QString textoParaColocar, int tempo, bool longo){
@@ -150,18 +145,13 @@ void JanelaPrincipal::colocaTexto(QString textoParaColocar, int tempo, bool long
 
 }
 
-void JanelaPrincipal::destroiTimer(){
-//    qDebug() << "acabo";
+void JanelaPrincipal::destroiTexto(){
     if(texto != nullptr)
         texto->setVisible(false);
 }
 
 void JanelaPrincipal::comecaJogo(){
-    jogador->putasso = 0;
-    jogador->temBanho = false;
-    jogador->temRede = false;
-    jogador->temGalinha = false;
-    jogador->setPos(800, 600);
+    jogador->resetaPersonagem();
 
     galinha->setVisible(true);
     rede->setVisible(true);
@@ -181,9 +171,9 @@ void JanelaPrincipal::fechaView(){
 }
 
 void JanelaPrincipal::acabaJogo(bool pacifist){
-    if(!jogador->temGalinha && pacifist)
+    if(!jogador->getTemGalinha() && pacifist)
         throw -4;
-    else if(!jogador->putasso && !pacifist)
+    else if(!jogador->getPutasso() && !pacifist)
         throw -3;
     colocaTexto(QString::number(tempoDeJogo->elapsed()/1000.0) + "s", 4, true);
     QTimer* fimDeJogo = new QTimer;

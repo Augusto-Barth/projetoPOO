@@ -44,7 +44,6 @@ QPainterPath Lagoa::shape() const
 void Lagoa::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 //    QColor azul = QColor(255, 0, 255);
-//    //painter->setBrush(marrom);
 //    QPainterPath path = shape();
 //    QPen pen;
 //    pen.setWidth(0);

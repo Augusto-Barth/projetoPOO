@@ -6,13 +6,12 @@
 class Casa : public Objeto
 {
 private:
-
-public:
-    Casa(QGraphicsItem* parent = nullptr);
-
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+public:
+    Casa(QGraphicsItem* parent = nullptr);
+
     QString tipo();
     bool atravessavel();
     void alteraZ();
