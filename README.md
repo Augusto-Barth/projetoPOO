@@ -14,8 +14,8 @@ Repositório para o projeto em QT de Programação Orientada a Objetos
 - ~~se perder no puzzle, resetar tudo (se sujar)~~
 
 ## Integrantes
-Gabriel Duarte 2382954
-Augusto Barth 2370387
-Gustavo D'avilla 2370506
+- Gabriel Duarte 2382954
+- Augusto Barth 2370387
+- Gustavo D'avilla 2370506
 
 Bem mais difícil do que a gente pensava.
