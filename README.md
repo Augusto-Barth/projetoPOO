@@ -16,6 +16,6 @@ Repositório para o projeto em QT de Programação Orientada a Objetos
 ## Integrantes
 - Gabriel Duarte 2382954
 - Augusto Barth 2370387
-- Gustavo D'avilla 2370506
+- Gustavo d'Avila 2370506
 
 Bem mais difícil do que a gente pensava.
