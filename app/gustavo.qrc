@@ -1,15 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/fundo.png</file>
         <file>images/galinha.png</file>
-        <file>images/mapa.png</file>
         <file>images/BonecoDir.png</file>
         <file>images/BonecoEsq.png</file>
-        <file>images/teste.png</file>
-        <file>images/mapa2.png</file>
         <file>images/mapa3.png</file>
         <file>images/parede.png</file>
-        <file>images/telhado.png</file>
         <file>images/veiaDir.png</file>
         <file>images/veiaEsq.png</file>
         <file>images/apenasPorta.png</file>
@@ -34,6 +29,5 @@
         <file>images/BonecoRedeDir2.png</file>
         <file>images/BonecoRedeEsq1.png</file>
         <file>images/BonecoRedeEsq2.png</file>
-        <file>images/tiro.mp3</file>
     </qresource>
 </RCC>
